@@ -12,6 +12,7 @@ import java.util.Comparator;
 public class Term implements Comparable<Term> {
 	private String query;
 	private double weight;
+	private static int rSize;
 
 	/**
 	 * Initialize a term with the given query string and weight.
@@ -30,7 +31,7 @@ public class Term implements Comparable<Term> {
 	 * @return
 	 */
 	public static Comparator<Term> byReverseWeightOrder() {
-		return new ReverseComparator();
+		return new ReverseWeightComparator();
 	}
 
 	/**
@@ -41,6 +42,7 @@ public class Term implements Comparable<Term> {
 	 * @return
 	 */
 	public static Comparator<Term> byPrefixOrder(int r) {
+		rSize = r;
 		return new PrefixComparator();
 	}
 
@@ -50,6 +52,7 @@ public class Term implements Comparable<Term> {
 	@Override
 	public int compareTo(Term that) {
 		return this.query.compareTo(that.query);
+		/* return Integer.compare((int)this.weight, (int)that.weight); */
 	}
 
 	/**
@@ -66,12 +69,15 @@ public class Term implements Comparable<Term> {
 	 * @author Annie Ruiz & Christopher Munoz
 	 *
 	 */
-	private static class ReverseComparator implements Comparator<Term> {
+	private static class ReverseWeightComparator implements Comparator<Term> {
 
 		@Override
-		public int compare(Term o1, Term o2) {
-			// TODO Auto-generated method stub
-			return 0;
+		public int compare(Term first, Term second) {
+			return Integer.compare((int) first.weight, (int) second.weight);
+			/*
+			 * if (first.weight > second.weight) return 1; else if (first.weight <
+			 * second.weight) return -1; else return 0;
+			 */
 		}
 
 	}
@@ -86,9 +92,11 @@ public class Term implements Comparable<Term> {
 	private static class PrefixComparator implements Comparator<Term> {
 
 		@Override
-		public int compare(Term o1, Term o2) {
-			// TODO Auto-generated method stub
-			return 0;
+		public int compare(Term first, Term second) {
+			String firstR = first.query.substring(0, rSize);
+			String secondR = second.query.substring(0, rSize);
+
+			return firstR.compareTo(secondR);
 		}
 
 	}
