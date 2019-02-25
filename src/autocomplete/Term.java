@@ -10,6 +10,8 @@ import java.util.Comparator;
  *
  */
 public class Term implements Comparable<Term> {
+	private String query;
+	private double weight;
 
 	/**
 	 * Initialize a term with the given query string and weight.
@@ -18,7 +20,8 @@ public class Term implements Comparable<Term> {
 	 * @param weight
 	 */
 	public Term(String query, double weight) {
-		// TODO
+		this.query = query;
+		this.weight = weight;
 	}
 
 	/**
@@ -27,8 +30,7 @@ public class Term implements Comparable<Term> {
 	 * @return
 	 */
 	public static Comparator<Term> byReverseWeightOrder() {
-		// TODO
-		return null;
+		return new ReverseComparator();
 	}
 
 	/**
@@ -39,8 +41,7 @@ public class Term implements Comparable<Term> {
 	 * @return
 	 */
 	public static Comparator<Term> byPrefixOrder(int r) {
-		// TODO
-		return null;
+		return new PrefixComparator();
 	}
 
 	/**
@@ -48,8 +49,7 @@ public class Term implements Comparable<Term> {
 	 */
 	@Override
 	public int compareTo(Term that) {
-		// TODO
-		return 0;
+		return this.query.compareTo(that.query);
 	}
 
 	/**
@@ -57,8 +57,40 @@ public class Term implements Comparable<Term> {
 	 * weight, followed by a tab, followed by the query.
 	 */
 	public String toString() {
-		// TODO
-		return null;
+		return weight + "\t" + query;
+	}
+
+	/**
+	 * Creates a Comparator that compares terms by weight in descending order.
+	 * 
+	 * @author Annie Ruiz & Christopher Munoz
+	 *
+	 */
+	private static class ReverseComparator implements Comparator<Term> {
+
+		@Override
+		public int compare(Term o1, Term o2) {
+			// TODO Auto-generated method stub
+			return 0;
+		}
+
+	}
+
+	/**
+	 * Compares the terms in lexicographic order but using only the first r
+	 * characters of each query.
+	 * 
+	 * @author Annie Ruiz & Christopher Munoz
+	 *
+	 */
+	private static class PrefixComparator implements Comparator<Term> {
+
+		@Override
+		public int compare(Term o1, Term o2) {
+			// TODO Auto-generated method stub
+			return 0;
+		}
+
 	}
 
 }
