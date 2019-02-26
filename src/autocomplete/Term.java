@@ -12,7 +12,6 @@ import java.util.Comparator;
 public class Term implements Comparable<Term> {
 	private String query;
 	private double weight;
-	private static int rSize;
 
 	/**
 	 * Initialize a term with the given query string and weight.
@@ -21,6 +20,13 @@ public class Term implements Comparable<Term> {
 	 * @param weight
 	 */
 	public Term(String query, double weight) {
+		if (query == null) {
+			throw new java.lang.NullPointerException("Query cannot be null");
+		}
+
+		if (weight < 0.0) {
+			throw new java.lang.IllegalArgumentException("Weight needs to be a Positive value");
+		}
 		this.query = query;
 		this.weight = weight;
 	}
@@ -42,8 +48,11 @@ public class Term implements Comparable<Term> {
 	 * @return
 	 */
 	public static Comparator<Term> byPrefixOrder(int r) {
-		rSize = r;
-		return new PrefixComparator();
+		if (r < 0) {
+			throw new java.lang.IllegalArgumentException("Please provide a Positive value");
+		}
+
+		return new PrefixComparator(r);
 	}
 
 	/**
@@ -90,6 +99,11 @@ public class Term implements Comparable<Term> {
 	 *
 	 */
 	private static class PrefixComparator implements Comparator<Term> {
+		private static int rSize;
+		
+		public PrefixComparator(int r) {
+			rSize = r;
+		}
 
 		@Override
 		public int compare(Term first, Term second) {
